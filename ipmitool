@@ -1,0 +1,146 @@
+本文介绍ipmitool工具的使用，这个命令主要是用来操作服务器硬件的，所以一般的业务运维很少会用它，但它的功能很强大，比如：能够硬重启服务器，重设BMC口，配置BMC口IP，进入grub环境，设置boot顺序，等等。
+
+在CentOS和RedHat Linux的大部分版本中都会默认安装它，所以它的实用性比较广。
+
+还有一个好处是用它可以制作远程管理服务器的运维自动化系统。
+
+- 进入grub环境：
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lanplus -U $USERNAME -P $PASSWORD sol activate
+
+- 查看电源状态:
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lan -U $USERNAME -P $PASSWORD power status
+
+- 强制修改启动项，让机器重启后自动进入BIOS设置界面：
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lanplus -U $USERNAME -P $PASSWORD chassis bootparam set bootflag force_bios
+
+- 关掉服务器电源，再打开：
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lan -U $USERNAME -P $PASSWORD power cycle
+
+- 查看BMC信息：
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lan -U $USERNAME -P $PASSWORD mc info
+
+- 显示lan的信息：
+复制代码
+代码如下:
+
+ipmitool -H $BMC_IP -I lan -U $USERNAME -P $PASSWORD lan print
+
+
+Ipmitool –I open sensor list命令可以获取传感器中的各种监测值和该值的监测阈值，包括（CPU温度，电压，风扇转速，电源调制模块温度，电源电压等信息）
+Ipmitool –I open sensor get “CPU0Temp”可以获取ID为CPU0Temp监测值，CPU0Temp是sensor的ID，服务器不同，ID表示也不同。
+
+复制代码
+代码如下:
+Ipmitool –I open sensor thresh
+设置ID值等于id的监测项的各种限制值。
+
+复制代码
+代码如下:
+Ipmitool –I open chassis status
+查看底盘状态，其中包括了底盘电源信息，底盘工作状态等
+
+复制代码
+代码如下:
+Ipmitool –I open chassis restart_cause
+查看上次系统重启的原因
+
+复制代码
+代码如下:
+Ipmitool –I open chassis policy list
+查看支持的底盘电源相关策略。
+
+复制代码
+代码如下:
+Ipmitool –I open chassis power on
+启动底盘，用此命令可以远程开机
+
+复制代码
+代码如下:
+Ipmitool –I open chassis power off
+关闭底盘，用此命令可以远程开机
+
+复制代码
+代码如下:
+Ipmitool –I open chassis power reset
+实现硬重启，用此命令可以远程开机
+
+
+复制代码
+代码如下:
+Ipmitool –I open mc reset
+使BMC重新硬启动
+
+复制代码
+代码如下:
+Ipmitool –I open mc info
+查看BMC硬件信息
+
+复制代码
+代码如下:
+Ipmitool –I open mc getenables
+列出BMC所有允许的选项
+
+复制代码
+代码如下:
+Ipmitool –I open mc setenables
+
+
+复制代码
+代码如下:
+Ipmitool-I open event
+命令可以用测试配置的IPMI中的snmp功能是否成功。
+
+复制代码
+代码如下:
+Ipmitool -I open lan print 1
+打印现咱channel 1的信息 。
+
+复制代码
+代码如下:
+Ipmitool -I open lan set 1 ipaddr 10.10.113.95
+设置channel 1 的地址为10.10.113.95
+
+复制代码
+代码如下:
+Ipmitool -I open lan set 1 snmp public
+设置channel 1 上snmp的community为public。
+
+复制代码
+代码如下:
+Ipmitool -I open lan set 1 access on
+设置channel 1允许访问。
+
+复制代码
+代码如下:
+Ipmitool -I open pef info
+打印Platform Event Filtering （pef）信息
+
+复制代码
+代码如下:
+Ipmitool -I open pef status
+查看Platform Event Filtering （pef）状态
+
+复制代码
+代码如下:
+Ipmitool -I open pef policy
+查看Platform Event Filtering （pef）策略设置
+
+复制代码
+代码如下:
+Ipmitool -I open sdr list fru
+读取fru信息并显示。（但我的服务器有问题，该项读取不到）

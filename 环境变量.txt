@@ -1,0 +1,15 @@
+linux命令行添加环境变量
+1.export命令
+export PATH=$PATH:/home/ldy/shell
+
+export CLASSPATH=.:/home/ldy/shell
+
+2.修改/etc/profile文件
+在/etc/profile文件末尾添加：
+export SHELL=/home/ldy/shell
+
+export PATH=$SHELL:$PATH
+
+export CLASSPATH=.:$SHELL
+
+source /etc/profile

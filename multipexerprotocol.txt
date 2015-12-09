@@ -1,0 +1,30 @@
+"""
+mutiplexer介绍
+目的：让不同的数据在一个串口上传输不至于发生紊乱
+multiplexer协议栈：
+|应用层：与具体应用有关，ATcommand，Voices和GPRS数据
+|物理层：串口协议，诸如起始位，校验方式和速率等。
+|multiplexer Layers : 传递字节流数据
+|Convergence Layers：传递结构化数据
+
+三种基本模式：基本模式，不带错误和带错误的高级模式
+
+类型服务：|进入multiplexer模式
+|建立DLC链接，每个连接对应一个虚拟串口
+|传输数据
+|电源管理
+|断开DLC连接
+|退出multiplexer模式
+|控制服务，设置一些参数
+DLC:data link connection
+
+基本协议数据单元
+flag address control length indicator          information                 FcS        flag
+8位   8位      8位     8位或者16位      不确定的长度但是是8位整数倍       校验和8位      8位
+
+帧类型：SABM UA DM DISC UIH UI
+"""
+
+除了应用层 multipexer是对称的协议
+
+
